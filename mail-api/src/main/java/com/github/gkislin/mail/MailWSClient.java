@@ -17,6 +17,7 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Future;
 
 /**
  * User: gkislin
@@ -61,9 +62,9 @@ public class MailWSClient {
         sendMailUrl(to, cc, subject, body, null, async);
     }
 
-    public static void sendMailUrl(final List<Addressee> to, final List<Addressee> cc, final String subject, final String body, final List<UrlAttach> attachments, boolean async) throws StateException {
+    public static Future<?> sendMailUrl(final List<Addressee> to, final List<Addressee> cc, final String subject, final String body, final List<UrlAttach> attachments, boolean async) throws StateException {
         LOGGER.info("Send mail to '" + to + "' cc '" + cc + "' subject '" + subject + (LOGGER.isDebug() ? "\nbody=" + body : ""));
-        AsyncExecutor.submit(new Runnable() {
+        Runnable task = new Runnable() {
             @Override
             public void run() {
                 try {
@@ -72,7 +73,8 @@ public class MailWSClient {
                     throw LOGGER.getStateException(e);
                 }
             }
-        }, async);
+        };
+        return AsyncExecutor.submit(task, async);
     }
 
     public static void sendMailMime(final List<Addressee> to, final List<Addressee> cc, final String subject, final String body, final List<MimeAttach> attachments, boolean async) throws StateException {
