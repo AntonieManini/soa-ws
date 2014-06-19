@@ -27,7 +27,7 @@ public class MailServiceImpl implements MailService {
 //        ServletUtil.checkBasicAuth(request, response, AUTH_HEADER);
 
         try {
-            MailSender.sendMail(to, cc, subject, body, attachments, AttachConverters.URL_ATTACH_CONVERTER);
+            MailSender.sendMail(to, cc, subject, body, attachments, AttachHelper.URL_ATTACH_CONVERTER);
         } catch (Exception e) {
             throw WebStateExceptionUtil.getWebStateException(e);
         }
@@ -36,7 +36,7 @@ public class MailServiceImpl implements MailService {
     @Override
     public void sendMailMime(List<Addressee> to, List<Addressee> cc, String subject, String body, List<MimeAttach> attachments) throws WebStateException {
         try {
-            MailSender.sendMail(to, cc, subject, body, attachments, AttachConverters.MIME_ATTACH_CONVERTER);
+            MailSender.sendMail(to, cc, subject, body, attachments, AttachHelper.MIME_ATTACH_CONVERTER);
         } catch (Exception e) {
             throw WebStateExceptionUtil.getWebStateException(e);
         }

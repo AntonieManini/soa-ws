@@ -1,8 +1,10 @@
 package com.github.gkislin.common.converter;
 
+import com.github.gkislin.common.Creatable;
 import com.github.gkislin.common.ExceptionType;
 import com.github.gkislin.common.LoggerWrapper;
 import com.github.gkislin.common.util.Util;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,4 +32,25 @@ public class ConverterUtil {
             return Collections.emptyList();
         }
     }
+
+    public static <T> List<T> create(String str, String delim, Creatable<T> factory) {
+        if (Util.isEmpty(str)) {
+            return Collections.emptyList();
+        }
+
+        // Question: http://stackoverflow.com/questions/6374050/string-split-not-on-regular-expression
+        if (str.contains(delim)) {
+//            emails.split(",");
+            String[] array = StringUtils.split(str, delim);
+
+            List<T> list = new ArrayList<>(array.length);
+            for (String item : array) {
+                list.add(factory.create(item));
+            }
+            return list;
+        } else {
+            return Collections.singletonList(factory.create(str));
+        }
+    }
+
 }

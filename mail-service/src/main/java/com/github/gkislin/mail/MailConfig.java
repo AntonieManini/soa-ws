@@ -2,6 +2,8 @@ package com.github.gkislin.mail;
 
 import com.github.gkislin.common.config.IConfig;
 import com.github.gkislin.common.config.RootConfig;
+import com.github.gkislin.common.io.Directory;
+import com.github.gkislin.common.util.AsyncExecutor;
 import com.typesafe.config.Config;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
@@ -31,7 +33,8 @@ public class MailConfig implements IConfig {
     private Authenticator auth;
 
     long scanTODO, scanFail;
-    private int poolSize;
+    Directory attachDir;
+
 
     public static MailConfig get() {
         return INSTANCE;
@@ -51,7 +54,9 @@ public class MailConfig implements IConfig {
 
         scanTODO = conf.getDuration("scanTODO", TimeUnit.SECONDS);
         scanFail = conf.getDuration("scanFail", TimeUnit.SECONDS);
-        poolSize = conf.getInt("poolSize");
+        attachDir = new Directory(conf.getString("attachDir"));
+
+        AsyncExecutor.setPoolSize(conf.getInt("poolSize"));
     }
 
     @Override

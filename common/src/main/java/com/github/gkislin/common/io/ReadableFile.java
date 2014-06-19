@@ -4,10 +4,7 @@ import com.github.gkislin.common.ExceptionType;
 import com.github.gkislin.common.LoggerWrapper;
 import com.github.gkislin.common.util.Util;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -28,6 +25,25 @@ public class ReadableFile extends File {
         super(Util.resolveReplacement(pathname));
         if (check) {
             check();
+        }
+    }
+
+    public ReadableFile(File parent, String child, boolean create) {
+        super(parent, child);
+        createOrCheck(create);
+    }
+
+    private void createOrCheck(boolean create) {
+        if (create) {
+            try {
+                if (!createNewFile()) {
+                    throw LOGGER.getStateException("File " + getAbsolutePath() + " already exists", ExceptionType.FILE);
+                }
+            } catch (IOException e) {
+                throw LOGGER.getStateException("File " + getAbsolutePath() + " couldn't be created", ExceptionType.FILE, e);
+            }
+        } else if (!isFile()) {
+            throw LOGGER.getStateException("File " + getAbsolutePath() + " not found", ExceptionType.FILE);
         }
     }
 

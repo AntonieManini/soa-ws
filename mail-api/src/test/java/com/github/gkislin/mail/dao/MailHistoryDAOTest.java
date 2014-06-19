@@ -16,7 +16,7 @@ public class MailHistoryDAOTest {
 
     @Test
     public void testDAO() throws Exception {
-        MailHistoryDAO.save(Collections.singletonList(ADDRESSEE), null, "Заголовок", "Сожержание", "OK");
+        MailHistoryDAO.save(Collections.singletonList(ADDRESSEE), null, "Заголовок", "Сожержание", "OK", null);
         List<MailHist> hist = MailHistoryDAO.getAll();
         System.out.println(hist);
     }

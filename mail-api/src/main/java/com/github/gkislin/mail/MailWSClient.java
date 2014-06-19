@@ -1,21 +1,19 @@
 package com.github.gkislin.mail;
 
 
+import com.github.gkislin.common.Creatable;
 import com.github.gkislin.common.LoggerWrapper;
 import com.github.gkislin.common.LoggingLevel;
 import com.github.gkislin.common.StateException;
 import com.github.gkislin.common.config.RootConfig;
+import com.github.gkislin.common.converter.ConverterUtil;
 import com.github.gkislin.common.util.AsyncExecutor;
-import com.github.gkislin.common.util.Util;
 import com.github.gkislin.common.web.ServletUtil;
 import com.github.gkislin.common.web.WebStateException;
 import com.github.gkislin.common.web.WsClient;
 import com.github.gkislin.common.web.handler.SoapClientLoggingHandler;
-import org.apache.commons.lang.StringUtils;
 
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Future;
 
@@ -101,23 +99,12 @@ public class MailWSClient {
     }
 
     public static List<Addressee> create(String emails) {
-        if (Util.isEmpty(emails)) {
-            return Collections.emptyList();
-        }
-
-        // Question: http://stackoverflow.com/questions/6374050/string-split-not-on-regular-expression
-        if (emails.contains(",")) {
-//            emails.split(",");
-            String[] array = StringUtils.split(emails, ',');
-
-            List<Addressee> list = new ArrayList<>(array.length);
-            for (String email : array) {
-                list.add(new Addressee(email));
+        return ConverterUtil.create(emails, ",", new Creatable<Addressee>() {
+            @Override
+            public Addressee create(String email) {
+                return new Addressee(email);
             }
-            return list;
-        } else {
-            return Collections.singletonList(new Addressee(emails));
-        }
+        });
     }
 
     public static String getAuthHeader() {
