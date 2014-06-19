@@ -1,8 +1,8 @@
 package com.github.gkislin.mail;
 
 
-import com.github.gkislin.common.StateException;
 import com.github.gkislin.common.web.WebStateException;
+import com.github.gkislin.common.web.WebStateExceptionUtil;
 
 import javax.jws.HandlerChain;
 import javax.jws.WebService;
@@ -28,8 +28,8 @@ public class MailServiceImpl implements MailService {
 
         try {
             MailSender.sendMail(to, cc, subject, body, attachments, AttachConverters.URL_ATTACH_CONVERTER);
-        } catch (StateException e) {
-            throw new WebStateException(e.getMessage(), e.getType());
+        } catch (Exception e) {
+            throw WebStateExceptionUtil.getWebStateException(e);
         }
     }
 
@@ -37,8 +37,8 @@ public class MailServiceImpl implements MailService {
     public void sendMailMime(List<Addressee> to, List<Addressee> cc, String subject, String body, List<MimeAttach> attachments) throws WebStateException {
         try {
             MailSender.sendMail(to, cc, subject, body, attachments, AttachConverters.MIME_ATTACH_CONVERTER);
-        } catch (StateException e) {
-            throw new WebStateException(e.getMessage(), e.getType());
+        } catch (Exception e) {
+            throw WebStateExceptionUtil.getWebStateException(e);
         }
     }
 }

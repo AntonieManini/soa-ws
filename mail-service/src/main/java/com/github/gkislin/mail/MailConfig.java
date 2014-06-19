@@ -11,6 +11,7 @@ import org.apache.commons.mail.HtmlEmail;
 import javax.mail.Authenticator;
 import javax.mail.internet.MimeUtility;
 import java.io.UnsupportedEncodingException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * User: gkislin
@@ -29,6 +30,9 @@ public class MailConfig implements IConfig {
     private String fromName;
     private Authenticator auth;
 
+    long scanTODO, scanFail;
+    private int poolSize;
+
     public static MailConfig get() {
         return INSTANCE;
     }
@@ -44,6 +48,10 @@ public class MailConfig implements IConfig {
         useTLS = conf.getBoolean("useTLS");
         debug = conf.getBoolean("debug");
         charset = conf.getString("charset");
+
+        scanTODO = conf.getDuration("scanTODO", TimeUnit.SECONDS);
+        scanFail = conf.getDuration("scanFail", TimeUnit.SECONDS);
+        poolSize = conf.getInt("poolSize");
     }
 
     @Override

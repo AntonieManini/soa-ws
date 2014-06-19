@@ -2,7 +2,14 @@
 <xs:schema xmlns:tns="http://web.common.gkislin.github.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema"
            targetNamespace="http://web.common.gkislin.github.com/">
 
-    <xs:element name="webStateException" nillable="true" type="tns:exceptionType"/>
+    <xs:element name="webStateException" nillable="true" type="tns:faultInfo"/>
+
+    <xs:complexType name="faultInfo">
+        <xs:sequence>
+            <xs:element name="type" type="tns:exceptionType"/>
+            <xs:element name="causeType" type="tns:exceptionSource" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
 
     <xs:simpleType name="exceptionType">
         <xs:restriction base="xs:string">
@@ -20,6 +27,15 @@
             <xs:enumeration value="ONE_C"/>
             <xs:enumeration value="ATTACH"/>
             <xs:enumeration value="LDAP"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="exceptionSource">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="NETWORK"/>
+            <xs:enumeration value="IO"/>
+            <xs:enumeration value="XML"/>
+            <xs:enumeration value="SECURITY"/>
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>

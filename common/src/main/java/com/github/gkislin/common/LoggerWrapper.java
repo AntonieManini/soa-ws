@@ -1,5 +1,6 @@
 package com.github.gkislin.common;
 
+import com.github.gkislin.common.web.FaultInfo;
 import com.github.gkislin.common.web.WebStateException;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
@@ -83,11 +84,18 @@ public class LoggerWrapper {
     }
 
     public StateException getStateException(WebStateException e) {
-        return getStateException(e.getMessage(), e.getFaultInfo());
+        FaultInfo faultInfo = e.getFaultInfo();
+        return getStateException(e.getMessage(), faultInfo.getType(), faultInfo.getSource());
+    }
+
+    public StateException getStateException(String msg, ExceptionType type, ExceptionSource source) {
+        logger.error(msg);
+        return new StateException(msg, type, source);
     }
 
     public StateException getStateException(String msg, ExceptionType type) {
-        return getStateException(msg, type, null);
+        logger.error(msg);
+        return new StateException(msg, type);
     }
 
     public StateException getStateException(ExceptionType type, Throwable e) {
