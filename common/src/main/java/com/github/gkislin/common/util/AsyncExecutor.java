@@ -25,7 +25,7 @@ public class AsyncExecutor {
         EXECUTOR.allowCoreThreadTimeOut(true);  // allow terminate core idle threads
     }
 
-    static final Map<Runnable, Future<?>> tasks = new HashMap<>();
+    private static final Map<Runnable, Future<?>> TASKS = new HashMap<>();
 
     public static void setPoolSize(int size) {
         EXECUTOR.setCorePoolSize(size);
@@ -44,36 +44,35 @@ public class AsyncExecutor {
 
     public static synchronized Runnable schedule(final Runnable task, long delay, long interval, TimeUnit unit) {
         LOGGER.info("Schedule asynchronous task");
-        tasks.put(task,
+        TASKS.put(task,
                 EXECUTOR.scheduleWithFixedDelay(wrap(task), delay, interval, unit));
         return task;
     }
 
     public static synchronized void cancel(Runnable task, boolean mayInterruptIfRunning) {
         LOGGER.info("Cancel asynchronous task");
-        Future<?> future = tasks.remove(task);
+        Future<?> future = TASKS.remove(task);
         if (future != null) {
             future.cancel(mayInterruptIfRunning);
         }
     }
 
     public static Future<?> submit(Runnable task, boolean async) {
-        Future<?> future = null;
         if (async) {
-            future = submit(task);
+            return submit(task);
         } else {
             task.run();
+            return null;
         }
-        return future;
     }
 
     public void cancelAll() throws Exception {
         LOGGER.info("Cancel all asynchronous task");
         synchronized (AsyncExecutor.class) {
-            Iterator<Runnable> iter = tasks.keySet().iterator();
+            Iterator<Runnable> iter = TASKS.keySet().iterator();
             while (iter.hasNext()) {
                 Runnable next = iter.next();
-                tasks.get(next).cancel(true);
+                TASKS.get(next).cancel(true);
                 iter.remove();
             }
         }
