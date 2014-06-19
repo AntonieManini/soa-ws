@@ -1,6 +1,6 @@
 package com.github.gkislin.mail;
 
-import com.github.gkislin.common.config.IConfig;
+import com.github.gkislin.common.config.AbstractConfig;
 import com.github.gkislin.common.config.RootConfig;
 import com.github.gkislin.common.io.Directory;
 import com.github.gkislin.common.util.AsyncExecutor;
@@ -13,13 +13,12 @@ import org.apache.commons.mail.HtmlEmail;
 import javax.mail.Authenticator;
 import javax.mail.internet.MimeUtility;
 import java.io.UnsupportedEncodingException;
-import java.util.concurrent.TimeUnit;
 
 /**
  * User: gkislin
  * Date: 12.09.13
  */
-public class MailConfig implements IConfig {
+public class MailConfig extends AbstractConfig{
     private static final MailConfig INSTANCE = new MailConfig();
 
     private String server;
@@ -52,8 +51,8 @@ public class MailConfig implements IConfig {
         debug = conf.getBoolean("debug");
         charset = conf.getString("charset");
 
-        scanTODO = conf.getDuration("scanTODO", TimeUnit.SECONDS);
-        scanFail = conf.getDuration("scanFail", TimeUnit.SECONDS);
+        scanTODO = getInSecond(conf, "scanTODO");
+        scanFail = getInSecond(conf, "scanFail");
         attachDir = new Directory(conf.getString("attachDir"));
 
         AsyncExecutor.setPoolSize(conf.getInt("poolSize"));

@@ -92,9 +92,11 @@ public class AsyncExecutor {
     }
 
     public static void shutdown() {
+        LOGGER.info("shutdown");
         EXECUTOR.shutdown();
         try {
             if (!EXECUTOR.awaitTermination(3, TimeUnit.SECONDS)) {
+                LOGGER.info("shutdownNow");
                 EXECUTOR.shutdownNow();
             }
         } catch (InterruptedException e) { //nothing
