@@ -1,10 +1,12 @@
 package com.github.gkislin.mail;
 
 import com.github.gkislin.common.config.RootConfig;
+import com.github.gkislin.common.util.AsyncExecutor;
 import org.junit.Test;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Future;
 
 /**
  * User: gkislin
@@ -35,9 +37,9 @@ public class MailWSClientIT {
                 RootConfig.getConf().getString("mail.client.user"),
                 RootConfig.getConf().getString("mail.client.password"));
 
-        MailWSClient.sendMailUrl(ADDRESSEE_LIST, null, "Аснихронная отправка почты", "<h2>Боди</h2>", Collections.singletonList(
+        Future<?> future = MailWSClient.sendMailUrl(ADDRESSEE_LIST, null, "Аснихронная отправка почты", "<h2>Боди</h2>", Collections.singletonList(
                 ATTACH), true);
-        Thread.sleep(10000);
+        AsyncExecutor.waitFuture(future);
     }
 
     @Test

@@ -6,6 +6,7 @@ import com.github.gkislin.common.LoggerWrapper;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -56,12 +57,14 @@ public class AsyncExecutor {
         }
     }
 
-    public static void submit(Runnable task, boolean async) {
+    public static Future<?> submit(Runnable task, boolean async) {
+        Future<?> future = null;
         if (async) {
-            submit(task);
+            future = submit(task);
         } else {
             task.run();
         }
+        return future;
     }
 
     public void cancelAll() throws Exception {
@@ -97,5 +100,10 @@ public class AsyncExecutor {
             }
         } catch (InterruptedException e) { //nothing
         }
+    }
+
+    public static void waitFuture(Future<?> future) throws ExecutionException, InterruptedException {
+        LOGGER.info("Wait asynchronous task");
+        future.get();
     }
 }
