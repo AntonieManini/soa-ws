@@ -16,6 +16,7 @@
 
         <slf4j.version>1.7.7</slf4j.version>
         <root.resources>${SOA_WS2_ROOT}/resources</root.resources>
+        <BUILD_NUM>MAVEN_BULD</BUILD_NUM>
     </properties>
 
     <build>
@@ -66,6 +67,26 @@
                     </dependency>
                 </dependencies>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <directory>src/main/webapp</directory>
+                        </resource>
+                        <resource>
+                            <directory>${root.resources}</directory>
+                            <includes>
+                                <include>index.html</include>
+                            </includes>
+                            <filtering>true</filtering>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
         </plugins>
 
         <resources>
@@ -74,6 +95,7 @@
                 <filtering>true</filtering>
                 <includes>
                     <include>log4j.xml</include>
+                    <include>app.properties</include>
                 </includes>
             </resource>
             <resource>

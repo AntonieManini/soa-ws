@@ -1,7 +1,9 @@
 package com.github.gkislin.common.config;
 
 import com.github.gkislin.common.LoggerWrapper;
+import com.github.gkislin.common.util.JmxUtil;
 
+import javax.management.ObjectName;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -11,6 +13,9 @@ import javax.servlet.ServletContextListener;
  */
 public class ConfigListener implements ServletContextListener {
     protected final LoggerWrapper logger = LoggerWrapper.get(getClass());
+
+    protected static IConfig CONFIG;
+    protected ObjectName beanObjectName = null;
 
 /*
     protected static AbstractConfig CONFIG;
@@ -27,7 +32,9 @@ public class ConfigListener implements ServletContextListener {
             throw logger.getIllegalArgumentException("context-param 'config' not found");
         }
         try {
-            AbstractConfig CONFIG = (AbstractConfig) Class.forName(configClassName).getMethod("get").invoke(null);
+            CONFIG = (AbstractConfig) Class.forName(configClassName).getMethod("get").invoke(null);
+            beanObjectName = JmxUtil.registerMBean(CONFIG, "type=Config");
+
             logger.info("\n+++++++++++++++++++++ Application Initialized +++++++++++++++++++++++++++++\n" + CONFIG.toString() +
                     "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
 
@@ -39,5 +46,9 @@ public class ConfigListener implements ServletContextListener {
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         logger.info("\n+++++++++++++++++++++ Application Destroyed +++++++++++++++++++++++++++++\n");
+    }
+
+    public static IConfig getConfig() {
+        return CONFIG;
     }
 }

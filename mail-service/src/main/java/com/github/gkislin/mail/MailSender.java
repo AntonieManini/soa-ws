@@ -35,7 +35,7 @@ public class MailSender {
     static void sendMail(List<Addressee> to, List<Addressee> cc, String subject, String body, List<MailAttach> attachments, int id) throws StateException {
         LOGGER.info("Send mail to '" + to + "' cc '" + cc + "' subject '" + subject + (LOGGER.isDebug() ? "\nbody=" + body : ""));
         try {
-            HtmlEmail email = MailConfig.get().createEmail();
+            HtmlEmail email = MailConfig.createEmail();
             email.setSubject(subject);
             email.setHtmlMsg(body);
             if (Util.isNotEmpty(to)) {
@@ -50,7 +50,7 @@ public class MailSender {
             }
             if (Util.isNotEmpty(attachments)) {
                 for (MailAttach ma : attachments) {
-                    email.attach(ma.getDataSource(), MailConfig.get().encodeWord(ma.getName()), MailConfig.get().encodeWord(ma.getDescription()));
+                    email.attach(ma.getDataSource(), MailConfig.encodeWord(ma.getName()), MailConfig.get().encodeWord(ma.getDescription()));
                 }
             }
             email.send();

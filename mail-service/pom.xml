@@ -22,6 +22,7 @@
                 <filtering>true</filtering>
                 <includes>
                     <include>log4j.xml</include>
+                    <include>app.properties</include>
                 </includes>
             </resource>
             <resource>
@@ -43,6 +44,13 @@
                                 <include>common.xsd</include>
                             </includes>
                             <targetPath>WEB-INF/wsdl</targetPath>
+                        </resource>
+                        <resource>
+                            <directory>${root.resources}</directory>
+                            <includes>
+                                <include>index.html</include>
+                            </includes>
+                            <filtering>true</filtering>
                         </resource>
                     </webResources>
                 </configuration>

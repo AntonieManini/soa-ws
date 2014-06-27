@@ -11,8 +11,8 @@ import com.github.gkislin.mail.dao.MailHistoryDAO;
 public class MailScanListener extends SchedulerListener {
     static final ExceptionSource REPEAT_CAUSE = ExceptionSource.NETWORK;
 
-    private final MailScanTask todoScanner = new MailScanTask(MailHistoryDAO.TODO_STATE);
-    private final MailScanTask failScanner = new MailScanTask(REPEAT_CAUSE.name());
+    final MailScanTask todoScanner = new MailScanTask(MailHistoryDAO.TODO_STATE);
+    final MailScanTask failScanner = new MailScanTask(REPEAT_CAUSE.name());
 
 
     @Override

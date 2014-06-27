@@ -1,12 +1,15 @@
 package com.github.gkislin.common.web;
 
 import com.github.gkislin.common.LoggerWrapper;
+import com.github.gkislin.common.util.Util;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +28,19 @@ public abstract class CommonServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
+    }
+
+    public static void setResponse(ServletResponse servletResponse, int code, String msg) throws IOException {
+        ((HttpServletResponse) servletResponse).setStatus(code);
+        setResponse(servletResponse, msg);
+    }
+
+    public static void setResponse(ServletResponse servletResponse, String msg) throws IOException {
+        if (!Util.isEmpty(msg)) {
+            Writer wr = servletResponse.getWriter();
+            wr.write(msg);
+            wr.close();
+        }
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

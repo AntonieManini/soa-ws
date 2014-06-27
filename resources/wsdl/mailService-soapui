@@ -172,7 +172,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <mail:sendMailUrl>
-         <to email="name@yandex.ru">Имя</to>
+         <to email="nameyandex.ru">Имя</to>
         <subject>Тест аттач</subject>
         <body>Аттач</body>
          <!--Zero or more repetitions:-->
@@ -185,4 +185,4 @@
          </attachments>
       </mail:sendMailUrl>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://mail.gkislin.github.com/MailService/sendMailUrlRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/></con:soapui-project>
+</soapenv:Envelope>]]></con:request><con:credentials><con:username>user</con:username><con:password>password</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:preemptive>true</con:preemptive><con:authType>Preemptive</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://mail.gkislin.github.com/MailService/sendMailUrlRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/></con:soapui-project>

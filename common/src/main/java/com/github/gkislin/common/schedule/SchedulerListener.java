@@ -10,11 +10,19 @@ import javax.servlet.ServletContextListener;
  * User: gkislin
  * Date: 06.09.12
  */
-public class SchedulerListener implements ServletContextListener {
+public class SchedulerListener implements ServletContextListener, Scheduler {
     protected final LoggerWrapper logger = LoggerWrapper.get(getClass());
+    private static Scheduler SCHEDULER;
+
+    @SuppressWarnings("unchecked")
+    public static <T extends Scheduler> T getScheduler() {
+        return (T) SCHEDULER;
+    }
 
     @Override
     public final void contextInitialized(ServletContextEvent sce) {
+        SCHEDULER = this;
+
         try {
             activate();
         } catch (Exception e) {
@@ -34,9 +42,11 @@ public class SchedulerListener implements ServletContextListener {
         }
     }
 
-    protected void activate() {
+    @Override
+    public void activate() {
     }
 
-    protected void deactivate() {
+    @Override
+    public void deactivate() {
     }
 }

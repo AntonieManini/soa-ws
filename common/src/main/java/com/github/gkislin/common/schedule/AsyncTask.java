@@ -14,6 +14,7 @@ public class AsyncTask {
     protected Runnable runTask = null;
 
     public void activate(Runnable runnable, long interval, boolean isRunFirst) {
+        deactivate();
         if (interval == 0) {
             logger.info("interval=0, scanning disabled");
         } else {

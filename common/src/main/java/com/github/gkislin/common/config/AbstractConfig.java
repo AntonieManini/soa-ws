@@ -13,6 +13,19 @@ abstract public class AbstractConfig implements IConfig {
         return RootConfig.get().getSubConfig(name);
     }
 
+    abstract protected void init();
+
+    @Override
+    public void reload() {
+        RootConfig.get().reload();
+        init();
+    }
+
+    @Override
+    public void set(String key, String value) throws Exception {
+        throw new UnsupportedOperationException();
+    }
+
     protected int getInSecond(com.typesafe.config.Config conf, String key) {
         return (int) conf.getDuration(key, TimeUnit.SECONDS);
     }

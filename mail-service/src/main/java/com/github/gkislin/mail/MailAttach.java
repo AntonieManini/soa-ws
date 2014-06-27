@@ -49,7 +49,7 @@ public class MailAttach {
     }
 
     private ReadableFile getFile(boolean create) {
-        return new ReadableFile(MailConfig.get().attachDir, fileName, create);
+        return new ReadableFile(MailConfig.getAttachDir(), fileName, create);
     }
 
     public String getDescription() {
