@@ -26,7 +26,7 @@ public class RootConfig extends AbstractConfig {
 
     @Override
     protected void init() {
-        config = ConfigFactory.parseFile(ReadableFile.getResource(APP_CONF)).resolve();
+        config = getResourceConfig(APP_CONF);
         hosts = config.getConfig("host");
     }
 
@@ -54,5 +54,9 @@ public class RootConfig extends AbstractConfig {
     @Override
     public String toString() {
         return hosts.toString();
+    }
+
+    public static Config getResourceConfig(String fileName) {
+        return ConfigFactory.parseFile(ReadableFile.getResource(fileName)).resolve();
     }
 }

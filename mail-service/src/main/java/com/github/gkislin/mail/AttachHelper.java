@@ -3,10 +3,12 @@ package com.github.gkislin.mail;
 import com.github.gkislin.common.Creatable;
 import com.github.gkislin.common.converter.Converter;
 import com.github.gkislin.common.converter.ConverterUtil;
+import com.github.gkislin.common.util.Util;
 
 import javax.activation.URLDataSource;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: gkislin
@@ -28,10 +30,30 @@ public class AttachHelper {
         }
     };
 
+    public static final Converter<ByteAttach, MailAttach> BYTE_ATTACH_CONVERTER = new Converter<ByteAttach, MailAttach>() {
+        @Override
+        public MailAttach convert(ByteAttach byteAttach) throws Exception {
+            return new MailAttach(byteAttach.getName(), new org.apache.commons.mail.ByteArrayDataSource(byteAttach.getData(), null), byteAttach.getDescription());
+        }
+    };
+
     public static void save(List<MailAttach> attachments) {
         for (MailAttach attach : attachments) {
             attach.save();
         }
+    }
+
+    private static final Map<Class<Attach>, Converter<Attach, MailAttach>> CONVERT_MAP =
+            Util.asMap(UrlAttach.class, URL_ATTACH_CONVERTER,
+                    MimeAttach.class, MIME_ATTACH_CONVERTER,
+                    ByteAttach.class, BYTE_ATTACH_CONVERTER);
+
+
+    public static <T extends Attach> Converter<Attach, MailAttach> getConverter(List<T> attachments) {
+        if (Util.isNotEmpty(attachments)) {
+            return CONVERT_MAP.get(attachments.get(0).getClass());
+        }
+        return null;
     }
 
     public static List<MailAttach> create(String attachList) {

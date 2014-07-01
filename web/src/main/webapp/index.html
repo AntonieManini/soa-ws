@@ -69,7 +69,7 @@
             $result.html('<h2>Почта отправляется...</h2>')
             $result.show();
 
-            var action = "sendMail";
+            var action = "sendMailAsync";
             $.ajax({
                 type: 'POST',
                 url: action,
@@ -104,7 +104,7 @@
         <tr>
             <td>
                 <!--<form id="mail" method="post" action="sendMail" enctype="application/x-www-form-urlencoded">-->
-                <form id="mail" method="post" action="sendMail" enctype="multipart/form-data">
+                <form id="mail" method="post" action="sendMailAsync" enctype="multipart/form-data">
                     <dl>
                         <dt>To:</dt>
                         <dd><input type="text" name="to" id="listTo" size=30></dd>

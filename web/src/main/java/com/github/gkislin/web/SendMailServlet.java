@@ -29,6 +29,11 @@ public class SendMailServlet extends CommonServlet {
 
     @Override
     protected void doProcess(HttpServletRequest request, HttpServletResponse response, Map<String, String> params) throws IOException, ServletException {
+//            MailWSClient.sendMail(params.get("to"), params.get("cc"), params.get("subject"), params.get("body"));
+        sendMail(request, response, params, false);
+    }
+
+    protected void sendMail(HttpServletRequest request, HttpServletResponse response, Map<String, String> params, boolean async) throws IOException {
 //        MailWSClient.sendMail(params.get("to"), params.get("cc"), params.get("subject"), params.get("body"));
         try {
             List<FileItem> attachments = new LinkedList<>();

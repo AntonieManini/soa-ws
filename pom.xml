@@ -16,6 +16,7 @@
         <module>parent</module>
         <module>mail-api</module>
         <module>mail-service</module>
+        <module>akka-support</module>
     </modules>
 
 </project>
