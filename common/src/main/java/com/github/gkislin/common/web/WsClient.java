@@ -23,7 +23,7 @@ public class WsClient<T> {
     private final Service SERVICE;
     private final Class<T> serviceClass;
 
-    private String endpointAddress;
+    private volatile String endpointAddress;
 
     public WsClient(String wsdlFile, QName qname, Class<T> serviceClass) {
         this.serviceClass = serviceClass;

@@ -41,4 +41,8 @@ public class MailHistoryDAO {
     public static void updateState(int id, String state) {
         Sql.update("UPDATE mail_hist SET state=? where id=?", state, id);
     }
+
+    public static List<MailHist> getLast(int rowNumber) {
+        return Sql.query("SELECT id,list_to as listTo,list_cc as listCc,subject,state,date FROM mail_hist ORDER BY date DESC LIMIT " + rowNumber, MAIL_HIST_HANDLER);
+    }
 }

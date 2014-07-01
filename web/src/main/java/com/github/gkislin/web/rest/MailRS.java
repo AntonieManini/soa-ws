@@ -3,6 +3,7 @@ package com.github.gkislin.web.rest;
 
 import com.github.gkislin.mail.dao.MailHist;
 import com.github.gkislin.mail.dao.MailHistoryDAO;
+import com.github.gkislin.web.WebConfig;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -38,6 +39,6 @@ public class MailRS {
     @Path("/mails")
     @Produces("application/json; charset=UTF-8")
     public List<MailHist> mails() {
-        return MailHistoryDAO.getAll();
+        return MailHistoryDAO.getLast(WebConfig.get().getRowNumber());
     }
 }

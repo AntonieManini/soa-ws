@@ -27,14 +27,18 @@ public class MailWSClient {
     private static final LoggerWrapper LOGGER = LoggerWrapper.get(MailWSClient.class);
     private static final SoapClientLoggingHandler LOGGING_HANDLER = new SoapClientLoggingHandler(LoggingLevel.DEBUG);
 
-    private static String user, password;
-    private static String authHeader;
+    private static volatile String user, password;
+    private static volatile String authHeader;
 
     static {
         WS_CLIENT = new WsClient<>(
                 "wsdl/mailService.wsdl",
                 new QName("http://mail.gkislin.github.com/", "MailServiceImplService"),
                 MailService.class);
+        init();
+    }
+
+    public static void init() {
         setHost(RootConfig.get().getHost("mail"));
         setCredential(
                 RootConfig.getConf().getString("mail.client.user"),
@@ -110,4 +114,5 @@ public class MailWSClient {
     public static String getAuthHeader() {
         return authHeader;
     }
+
 }
