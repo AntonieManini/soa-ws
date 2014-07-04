@@ -122,9 +122,14 @@
                         <dd><textarea type="text" name="body" id="body" cols="40" rows="10"></textarea></dd>
                     </dl>
                     <dl>
+                        <dt>Transport:</dt>
+                        <dd>WebService <input type="radio" name="transport" id="ws_transport" value="ws" checked></dd>
+                        <dd>AKKA remote <input type="radio" name="transport" value="akka"></dd>
+                    </dl>
+                    <dl>
                         <dt>Attachments type:</dt>
                         <dd>UrlType <input type="radio" name="type" value="urlType" checked></dd>
-                        <dd>MimeType <input type="radio" name="type" value="mimeType"></dd>
+                        <dd>BinaryType <input type="radio" name="type" value="binaryType"></dd>
                     </dl>
                     <dl>
                         <dt>Attachments:</dt>

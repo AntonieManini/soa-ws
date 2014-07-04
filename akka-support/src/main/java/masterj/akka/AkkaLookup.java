@@ -44,19 +44,21 @@ public class AkkaLookup {
         LOGGER.info("Started AkkaSystem " + actorSystemName + ":" + nodeName + ". Waiting for messages...");
         try {
             createSystem(actorSystemName, nodeName);
-            TypedActor.get(system).typedActorOf(new TypedProps<T>(typedClass, creator), nodeName);
+            TypedActor.get(system).typedActorOf(new TypedProps<>(typedClass, creator), nodeName);
         } catch (Throwable t) {
             throw LOGGER.getIllegalStateException("Akka initialization failed", t);
         }
     }
 
     public static void shutdown() {
+        if(system!=null) {
         try {
-            LOGGER.info("Akka system shutdown");
-            system.shutdown();
+                LOGGER.info("Akka system shutdown");
+                system.shutdown();
         } catch (Throwable t) {
             LOGGER.error("Akka shutdown failed", t);
             throw t;
+        }
         }
     }
 }

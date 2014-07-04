@@ -1,6 +1,7 @@
 package com.github.gkislin.mail;
 
 import javax.xml.bind.annotation.*;
+import java.io.Serializable;
 
 /**
  * User: gkislin
@@ -8,7 +9,7 @@ import javax.xml.bind.annotation.*;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Addressee {
+public class Addressee implements Serializable{
 
     @XmlValue
     private String name;

@@ -19,7 +19,7 @@
     <!-- ================================= -->
 
     <appender name="APP-LOG-FILE" class="org.apache.log4j.RollingFileAppender">
-        <param name="File" value="${SOA_WS2_ROOT}/log/${project.name}.log"/>
+        <param name="File" value="${SOA_WS2_LOG}/${project.name}.log"/>
         <param name="MaxFileSize" value="20MB"/>
         <param name="MaxBackupIndex" value="50"/>
         <param name="Append" value="true"/>

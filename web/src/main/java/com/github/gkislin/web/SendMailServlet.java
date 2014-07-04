@@ -5,7 +5,9 @@ import com.github.gkislin.common.converter.ConverterUtil;
 import com.github.gkislin.common.web.CommonServlet;
 import com.github.gkislin.common.web.HtmlUtil;
 import com.github.gkislin.mail.Addressee;
+import com.github.gkislin.mail.MailRemoteService;
 import com.github.gkislin.mail.MailWSClient;
+import com.github.gkislin.mail.UrlAttach;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
@@ -52,12 +54,24 @@ public class SendMailServlet extends CommonServlet {
                     throw logger.getStateException("Ошибка загрузки файла", ExceptionType.ATTACH, e);
                 }
 
-                if ("urlType".equals(params.get("type"))) {
-                    MailWSClient.sendMailUrl(fromParam(params, "to"), fromParam(params, "cc"), params.get("subject"), params.get("body"),
-                            ConverterUtil.convert(attachments, FileItemAttachConverters.FILE_ITEM_URL_CONVERTER, ExceptionType.ATTACH), false);
+
+                List<Addressee> to = fromParam(params, "to");
+                List<Addressee> cc = fromParam(params, "cc");
+                String subject = params.get("subject");
+                String body = params.get("body");
+                List<UrlAttach> urlAttach = ConverterUtil.convert(attachments, FileItemAttachConverters.FILE_ITEM_URL_CONVERTER, ExceptionType.ATTACH);
+
+                if ("ws".equals(params.get("transport"))) {
+                    if ("urlType".equals(params.get("type"))) {
+                        MailWSClient.sendMailUrl(to, cc, subject, body, urlAttach, false);
+                    } else {
+                        MailWSClient.sendMailMime(to, cc, subject, body,
+                                ConverterUtil.convert(attachments, FileItemAttachConverters.FILE_ITEM_MIME_CONVERTER, ExceptionType.ATTACH), false);
+                    }
                 } else {
-                    MailWSClient.sendMailMime(fromParam(params, "to"), fromParam(params, "cc"), params.get("subject"), params.get("body"),
-                            ConverterUtil.convert(attachments, FileItemAttachConverters.FILE_ITEM_MIME_CONVERTER, ExceptionType.ATTACH), false);
+                    MailRemoteService akkaItf = WebListener.getNodeList().get(0);
+                    akkaItf.sendMail(to, cc, subject, body, "urlType".equals(params.get("type")) ?
+                            urlAttach : ConverterUtil.convert(attachments, FileItemAttachConverters.FILE_ITEM_BYTE_CONVERTER, ExceptionType.ATTACH));
                 }
             }
         } catch (Exception e) {

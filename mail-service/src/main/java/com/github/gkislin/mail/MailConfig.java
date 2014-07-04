@@ -104,8 +104,8 @@ public class MailConfig extends AbstractConfig implements MailConfigMBean{
         props = new MailProps(conf);
 
         setPoolSize(conf.getInt(POOL_SIZE));
-        setScanTODO(getInSecond(conf, SCAN_TODO));
-        setScanFail(getInSecond(conf, SCAN_FAIL));
+        scanTODO = getInSecond(conf, SCAN_TODO);
+        scanFail = getInSecond(conf, SCAN_FAIL);
     }
 
     public void setScanTODO(int inSecond) {

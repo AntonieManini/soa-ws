@@ -60,12 +60,12 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.github.gkislin</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>mail-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.github.gkislin</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>test</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
@@ -89,7 +89,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.gkislin</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>akka-support</artifactId>
             <version>${project.version}</version>
         </dependency>

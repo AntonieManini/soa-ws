@@ -1,9 +1,11 @@
 package com.github.gkislin.web;
 
 import com.github.gkislin.common.converter.Converter;
+import com.github.gkislin.mail.ByteAttach;
 import com.github.gkislin.mail.MimeAttach;
 import com.github.gkislin.mail.UrlAttach;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.io.IOUtils;
 
 import javax.activation.DataHandler;
 import java.io.File;
@@ -37,4 +39,12 @@ public class FileItemAttachConverters {
         fi.write(tempFile);
         return tempFile.toURI().toURL();
     }
+
+    public static final Converter<FileItem, ByteAttach> FILE_ITEM_BYTE_CONVERTER = new Converter<FileItem, ByteAttach>() {
+
+        @Override
+        public ByteAttach convert(FileItem fi) throws Exception {
+            return new ByteAttach(fi.getName(), IOUtils.toByteArray(fi.getInputStream()));
+        }
+    };
 }

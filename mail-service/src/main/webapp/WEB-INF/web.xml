@@ -9,11 +9,11 @@
     </context-param>
 
     <listener>
-        <listener-class>com.github.gkislin.mail.MailScanListener</listener-class>
+        <listener-class>com.github.gkislin.common.config.ConfigListener</listener-class>
     </listener>
 
     <listener>
-        <listener-class>com.github.gkislin.common.config.ConfigListener</listener-class>
+        <listener-class>com.github.gkislin.mail.MailScanListener</listener-class>
     </listener>
 
     <servlet>

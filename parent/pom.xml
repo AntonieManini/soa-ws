@@ -40,6 +40,7 @@
                     <contextFile>${root.resources}/env/context.xml</contextFile>
                     <systemProperties>
                         <SOA_WS2_ROOT>${SOA_WS2_ROOT}</SOA_WS2_ROOT>
+                        <SOA_WS2_LOG>${SOA_WS2_ROOT}/log</SOA_WS2_LOG>
                         <file.encoding>UTF-8</file.encoding>
                     </systemProperties>
                     <webapps>

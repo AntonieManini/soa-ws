@@ -8,7 +8,7 @@
     </context-param>
 
     <listener>
-        <listener-class>com.github.gkislin.common.config.ConfigListener</listener-class>
+        <listener-class>com.github.gkislin.web.WebListener</listener-class>
     </listener>
 
     <servlet>
